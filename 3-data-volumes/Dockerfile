@@ -8,7 +8,13 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+ARG DEFAULT_PROT=80
+# arg can be use on build time instructions, not runtime ie(npm start)
+
+# ENV PORT 80 or:
+ENV PORT $DEFAULT_PROT
+
+EXPOSE $PORT
 
 # VOLUME ["/app/feedback"]
 
