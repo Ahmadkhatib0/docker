@@ -10,4 +10,8 @@ COPY . .
 
 EXPOSE 80
 
-CMD [ "node", "server.js" ]
+# VOLUME ["/app/feedback"]
+
+# CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
+# to use nodemon instead to what for changes in js files 
