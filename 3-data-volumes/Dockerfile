@@ -17,6 +17,7 @@ ENV PORT $DEFAULT_PROT
 EXPOSE $PORT
 
 # VOLUME ["/app/feedback"]
+# this creates an anonymous volume 
 
 # CMD [ "node", "server.js" ]
 CMD [ "npm", "start" ]
