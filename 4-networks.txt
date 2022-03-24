@@ -1,0 +1,23 @@
+docker network ls / rm / prune / create / connect 
+
+ instead of =>  mongodb://localhost:27017/swfavorites
+mongodb://host.docker.internal:27017/swfavorites  
+//host.docker.internal this is understood by docker and it will be translated to the url of
+//the local host machine das seen inside the container (note you can to have http instead 
+//of mongodb ) and this is for commination between your dockerized apps and your local host machine 
+
+mongodb://172.17.0.3:27017/swfavorites
+//172.17.0.3 is ip of the mongodb container, got by inspect this container 
+//this way we communicate with another container 
+
+//the previous way is not the easiest way, we need to lookup for network ip for each container 
+//so the solution is to create DOCKER NETWORK,which will automatically resolve the names for 
+//all containers within this network , first unless volumes which are created automatically 
+//you need to create a network with a name of you choice
+docker network create favorites-net 
+docker run -d --name mongodb mongo --network favorites-net mongo
+docker run -p 3000:3000 --name favorites -d --rm --network favorites-net favorites
+// mongodb://172.17.0.3:27017/swfavorites => mongodb://mongodb:27017/swfavorites
+//as with host.docker.internal , by putting the name of the container docker will 
+//resolve its ip automatically,without warring about looking up for its ip 
+
