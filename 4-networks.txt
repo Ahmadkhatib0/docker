@@ -1,6 +1,6 @@
 docker network ls / rm / prune / create / connect 
 
- instead of =>  mongodb://localhost:27017/swfavorites
+instead of =>  mongodb://localhost:27017/swfavorites
 mongodb://host.docker.internal:27017/swfavorites  
 //host.docker.internal this is understood by docker and it will be translated to the url of
 //the local host machine das seen inside the container (note you can to have http instead 
@@ -21,3 +21,17 @@ docker run -p 3000:3000 --name favorites -d --rm --network favorites-net favorit
 //as with host.docker.internal , by putting the name of the container docker will 
 //resolve its ip automatically,without warring about looking up for its ip 
 
+//important note: when working with mongo if you changed the credentials for a db an user name 
+//you need to remove the old volumes and then create them, because the old credentials will 
+//still be locked inside them 
+
+RUN npm install \ COPY . . 
+//note: the node_modules will be copied from the local hard to the container because of 
+//this . . which copies everything again into the container including node_modules
+//the solution is simple, exclude them in .dockerignore file 
+
+docker run --name mongodb --rm -d --network goals-net -v data:/data/db 
+-e MONGO_INITDB_ROOT_USERNAME=ahmadkhatib 
+-e MONGO_INITDB_ROOT_PASSWORD=12345678 mongo
+
+ docker run -p 3000:3000 --name goals-react --rm -it -v $(pwd)/src:/app/src  goals-react 
