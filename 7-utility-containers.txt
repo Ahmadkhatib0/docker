@@ -1,0 +1,16 @@
+docker run -it -d node 
+# container will not shout down immediately,will keep listening for inputs 
+docker exec -it peaceful_chatelet npm init
+docker run -it -v $(pwd):/app node-utiltiy npm init 
+docker run -it -v $(pwd):/app mynpm install express --save
+
+docker-compose run containerName command 
+docker-compose run node-react init 
+docker-compose run --rm node-react init # remove it  
+
+
+# if we have a command after (ie docker run .... npm init), it'll override the CMD 
+# inside the Dockerfile, but with ie ENTRYPOINT ["npm"] , it will first restrict the commands
+# that you can to run with this container for just npm + .... , for example you'll not be allowed 
+# to execute node + ..... , and second it will prefix (npm ) to your specified commands 
+# when running containers based on this Dockerfile (ie npm install => just install )
